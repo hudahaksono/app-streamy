@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streamy</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="box">
+        <video autoplay muted loop id="video-bg">
+          <source src="./img/5.2 - Render 4K.mp4" type="video/mp4">
+         
+        </video>
+        <div class="inner-box">
+          <div class="forms-wrap">
+            
+            <form action="app.html" autocomplete="off" class="sign-in-form">
+              <div class="logo">
+                <img src="./img/logo-mata.png" alt="easyclass" />
+                <h4 >STREAMY</h4>
+              </div>
+
+              <div class="heading">
+                <h2>Sign In</h2>
+                <h6>Not registred yet?</h6>
+                <a href="./signup.html" class="toggle">Sign up</a>
+              </div>
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input
+                  type="email"
+                  minlength="4"
+                  class="input-field"
+                  autocomplete="off"
+                  required
+              />
+                  <label>Email</label>
+                  <div class="error-message"></div>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Password</label>
+                </div>
+
+                <input type="submit" value="Sign In" class="sign-btn" />
+                <div class="error-message-below-btn"></div> 
+              </div>
+            </form>
+
+          
+          </div>
+
+          <div class="carousel" style="display: none;">
+            <div class="images-wrapper">
+              <img src="./img/image1.png" class="image img-1 show" alt="" />
+              <img src="./img/image2.png" class="image img-2" alt="" />
+              <img src="./img/image3.png" class="image img-3" alt="" />
+            </div>
+
+            <div class="text-slider">
+              <div class="text-wrap">
+                <div class="text-group">
+                  <h2>Create your own courses</h2>
+                  <h2>Customize as you like</h2>
+                  <h2>Invite students to your class</h2>
+                </div>
+              </div>
+
+              <div class="bullets">
+                <span class="active" data-value="1"></span>
+                <span data-value="2"></span>
+                <span data-value="3"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Javascript file -->
+
+
+
+    <script src="app.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  // Mengambil elemen-elemen yang diperlukan dari form
+    const signInForm = document.querySelector('.sign-in-form');
+    const emailInput = signInForm.querySelector('input[type="email"]');
+    const passwordInput = signInForm.querySelector('input[type="password"]');
+    const errorDiv = signInForm.querySelector('.error-message');
+
+    signInForm.addEventListener('submit', function (event) {
+    event.preventDefault(); 
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const provider = 'local'; 
+    const platform = 'android'; 
+
+    // Buat objek data yang akan dikirimkan
+    const formData = {
+      login_textbox: email,
+      password: password,
+      provider: provider,
+      platform: platform
+    };
+
+    // Konversi objek data menjadi JSON
+    const jsonData = JSON.stringify(formData);
+
+    // Konfigurasi permintaan HTTP
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://adminsweb.streamy-ai.com/api/login', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+      // Menangani respons dari server
+      xhr.onload = function () {
+      if (xhr.status === 200) {
+        // Sukses, lakukan tindakan yang diperlukan (misalnya, redirect ke halaman beranda)
+        window.location.href = 'app.html'; // Ganti dengan halaman yang sesuai
+      } else {
+        // Gagal, tampilkan pesan kesalahan
+        errorDiv.textContent = ''; // Kosongkan pesan kesalahan di atas form
+    const errorBelowButton = signInForm.querySelector('.error-message-below-btn');
+    errorBelowButton.textContent = 'Invalid email or password';
+      }
+    };
+
+    // Menangani kesalahan koneksi
+      xhr.onerror = function () {
+      console.error('Error while making the request.');
+    };
+
+    // Mengirim permintaan POST dengan data JSON
+    xhr.send(jsonData);
+  });
+});
+
+
+    </script>
+  </body>
+</html>
